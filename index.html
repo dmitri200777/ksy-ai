@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ксю - Виртуальная Подруга</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
+    .container { width: 90%; max-width: 900px; margin: auto; padding: 20px; }
+    h1 { text-align: center; }
+    .login-box, .app-box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, select, button, textarea { padding: 8px; margin: 5px 0; width: 100%; box-sizing: border-box; }
+    button { cursor: pointer; }
+    .hidden { display: none; }
+    .char-presets button { margin: 3px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ксю - Твоя AI-подруга</h1>
+
+    <!-- Блок логина -->
+    <div class="login-box" id="loginBox">
+      <h2>Вход</h2>
+      <input type="text" id="login" placeholder="Логин">
+      <input type="password" id="password" placeholder="Пароль">
+      <button onclick="login()">Войти</button>
+    </div>
+
+    <!-- Основное приложение -->
+    <div class="app-box hidden" id="appBox">
+      <h2>Настройки API</h2>
+      <input type="text" id="openaiKey" placeholder="OpenAI API Key">
+      <input type="text" id="stabilityKey" placeholder="StabilityAI API Key">
+      <button onclick="saveKeys()">Сохранить ключи</button>
+      
+      <h2>Настройки персонажа</h2>
+      <div class="char-presets">
+        <p>Характер:</p>
+        <button onclick="setChar('Весёлая')">Весёлая</button>
+        <button onclick="setChar('Спокойная')">Спокойная</button>
+        <button onclick="setChar('Игривая')">Игрвая</button>
+        <button onclick="setChar('Готовая на всё')">Готовая на всё</button>
+        <button onclick="setChar('Загадочная')">Загадочная</button>
+        <button onclick="setChar('Романтичная')">Романтичная</button>
+        <button onclick="setChar('Покладистая')">Покладистая</button>
+      </div>
+      <div>
+        <p>Одежда:</p>
+        <select id="clothes">
+          <option>Повседневная</option>
+          <option>Спортивная</option>
+          <option>Вечернее платье</option>
+          <option>Киберпанк</option>
+          <option>Пляжная 1</option>
+          <option>Пляжная 2</option>
+          <option>Аниме стиль 1</option>
+          <option>Аниме стиль 2</option>
+          <option>Фэнтези костюм</option>
+        </select>
+      </div>
+      <div>
+        <p>Поза:</p>
+        <select id="pose">
+          <option>Уверенная стойка</option>
+          <option>Расслабленная</option>
+          <option>Игриво опершись на бедро</option>
+          <option>Скрещённые руки</option>
+          <option>Сидя, нога на ногу</option>
+          <option>Лёжа на боку</option>
+          <option>Лёжа на спине 1</option>
+          <option>Лёжа на спине 2</option>
+          <option>Стоя у стены 1</option>
+          <option>Стоя у стены 2</option>
+        </select>
+      </div>
+      <h2>Чат</h2>
+      <textarea id="chat" rows="10" readonly></textarea><br>
+      <input type="text" id="message" placeholder="Напиши что-то..." onkeydown="if(event.key==='Enter'){sendMessage()}">
+      <button onclick="sendMessage()">Отправить</button>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const login = document.getElementById('login').value;
+      const pass = document.getElementById('password').value;
+      if (login === 'Dmt' && pass === '200777') {
+        document.getElementById('loginBox').classList.add('hidden');
+        document.getElementById('appBox').classList.remove('hidden');
+      } else {
+        alert('Неверный логин или пароль');
+      }
+    }
+
+    function saveKeys() {
+      localStorage.setItem('openaiKey', document.getElementById('openaiKey').value);
+      localStorage.setItem('stabilityKey', document.getElementById('stabilityKey').value);
+      alert('Ключи сохранены!');
+    }
+
+    function setChar(character) {
+      const chat = document.getElementById('chat');
+      chat.value += `
+[Система]: Ксю теперь ${character}.`;
+    }
+
+    function sendMessage() {
+      const msg = document.getElementById('message').value;
+      if (!msg) return;
+      const chat = document.getElementById('chat');
+      chat.value += `
+Ты: ${msg}`;
+      chat.value += `
+Ксю: (симуляция ответа ИИ)`;
+      document.getElementById('message').value = '';
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+</body>
+</html>
